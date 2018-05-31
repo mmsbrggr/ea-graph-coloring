@@ -1,5 +1,5 @@
-def replace(fitness_func, population, children):
-    sorted_population = sorted(population, key=lambda individual: fitness_func(individual))
+def replace(population, children):
+    sorted_population = sorted(population, key=lambda individual: individual.fitness)
 
     i = len(population) - 1
     for child in children:

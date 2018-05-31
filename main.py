@@ -3,7 +3,7 @@ import sys
 
 from src.Parser import Parser
 from src.fitness import fitness, fitness_only_bad_edges
-from src.ga import genetic_algorithm, genetic_algorithm_2
+from src.ga import genetic_algorithm
 from src.initialization import initialization_random
 from src.mutate import mutate, mutate_random_color
 from src.recombine import recombine_crossover
@@ -18,7 +18,7 @@ def main(argv):
     path = os.path.join(os.getcwd(), 'instances', file_name + '.col')
     graph = Parser().get_graph_from_file(path)
 
-    if argv[1]:
+    if len(argv) >= 2:
         # choose algorithm from command line
         solution = globals()[argv[1]](graph)
     else:
@@ -31,18 +31,6 @@ def main(argv):
 
 def ga1(graph):
     return genetic_algorithm(
-        initialization_random(graph, 50),
-        fitness,
-        terminate_after_generations(1000),
-        tournament_selection(tournament_size=3, selection_size=20),
-        recombine_crossover,
-        mutate,
-        replace
-    )
-
-
-def ga2(graph):
-    return genetic_algorithm_2(
         initialization_random(graph, 30),
         fitness_only_bad_edges,
         terminate_after_generations(1000),

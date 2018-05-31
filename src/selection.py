@@ -12,15 +12,15 @@ def tournament_selection(tournament_size, selection_size):
     individual more than once.
     """
 
-    def f(fitness_func, population):
+    def f(population):
         selected_individuals = []
         for i in range(selection_size):
             tournament_leader = random.choice(population)
             if random.random() < 0.9:
                 for j in range(tournament_size):
                     individual = random.choice(population)
-                    if fitness_func(individual, population) < \
-                       fitness_func(tournament_leader, population):
+                    if individual.fitness < \
+                       tournament_leader.fitness:
                         tournament_leader = individual
 
             selected_individuals.append(tournament_leader)
