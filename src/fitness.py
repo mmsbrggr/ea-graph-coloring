@@ -10,8 +10,8 @@ def number_bad_edges(individual):
     count = 0
 
     # Loop over diagonal matrix
-    for vertex1 in range(0, graph.number_vertices - 1):
-        for vertex2 in range(vertex1 + 1, graph.number_vertices - 1):
+    for vertex1 in range(0, graph.number_vertices):
+        for vertex2 in range(vertex1 + 1, graph.number_vertices):
             if graph.are_neighbors(vertex1, vertex2)\
                     and individual.coloring[vertex1] == individual.coloring[vertex2]:
                 count += 1
