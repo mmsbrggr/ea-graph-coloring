@@ -1,5 +1,7 @@
+import os
 import sys
 
+from src.Parser import Parser
 from src.fitness import fitness
 from src.ga import genetic_algorithm
 from src.initialization import initialization_random
@@ -11,14 +13,19 @@ from src.termination import terminate_after_generations
 
 
 def main(argv):
-    instance = None  # TODO read from file
-    solution = ga1(instance)
+    file_name = argv[0]
+    path = os.path.join(os.getcwd(), 'instances', file_name + '.col')
+    graph = Parser().get_graph_from_file(path)
+
+    solution = ga1(graph)
+
     # TODO print / write solution
+    print(solution)
 
 
-def ga1(instance):
+def ga1(graph):
     return genetic_algorithm(
-        initialization_random(instance, 10),
+        initialization_random(graph, 10),
         fitness,
         terminate_after_generations(100),
         tournament_selection(tournament_size=3, selection_size=8),

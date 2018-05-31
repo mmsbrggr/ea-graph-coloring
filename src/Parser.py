@@ -1,4 +1,4 @@
-from Graph import Graph
+from src.Graph import Graph
 
 preamble_symbol = "p"
 edge_symbol = "e"

@@ -1,3 +1,17 @@
-def initialization_random(individual, population_size):
-    # TODO return list of random individuals
-    pass
+from random import randint
+
+from src.Individual import Individual
+
+
+def initialization_random(graph, population_size):
+    def f():
+        population = []
+        for i in range(population_size):
+            individual = Individual(graph)
+            for j in range(graph.number_vertices):
+                individual.coloring[j] = randint(0, graph.number_vertices)
+            population.append(individual)
+        print(population)
+        return population
+
+    return f
