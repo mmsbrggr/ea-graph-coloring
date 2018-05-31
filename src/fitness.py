@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def fitness(individual):
+def fitness(individual, population=None):
     return 2 * number_bad_edges(individual) + number_colors(individual)
 
 

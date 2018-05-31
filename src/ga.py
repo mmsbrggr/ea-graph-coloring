@@ -1,4 +1,3 @@
-import random
 
 
 def genetic_algorithm(initialization_func,
@@ -33,8 +32,8 @@ def genetic_algorithm(initialization_func,
 
     best_individual = population[0]
     for individual in population[1:]:
-        if fitness_func(population, individual) > \
-                fitness_func(population, best_individual):
+        if fitness_func(individual, population) > \
+                fitness_func(best_individual, population):
             best_individual = individual
 
     return best_individual

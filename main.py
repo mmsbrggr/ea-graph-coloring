@@ -6,7 +6,7 @@ from src.fitness import fitness
 from src.ga import genetic_algorithm
 from src.initialization import initialization_random
 from src.mutate import mutate
-from src.recombine import recombine
+from src.recombine import recombine_crossover
 from src.replace import replace
 from src.selection import tournament_selection
 from src.termination import terminate_after_generations
@@ -29,7 +29,7 @@ def ga1(graph):
         fitness,
         terminate_after_generations(100),
         tournament_selection(tournament_size=3, selection_size=8),
-        recombine,
+        recombine_crossover,
         mutate,
         replace
     )

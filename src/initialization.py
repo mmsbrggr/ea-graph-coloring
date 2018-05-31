@@ -11,7 +11,6 @@ def initialization_random(graph, population_size):
             for j in range(graph.number_vertices):
                 individual.coloring[j] = randint(0, graph.number_vertices)
             population.append(individual)
-        print(population)
         return population
 
     return f
