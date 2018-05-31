@@ -32,7 +32,7 @@ def main(argv):
 def ga1(graph):
     return genetic_algorithm(
         initialization_random(graph, 30),
-        fitness_only_bad_edges,
+        fitness,
         terminate_after_generations(1000),
         tournament_selection(tournament_size=4, selection_size=10),
         recombine_crossover,

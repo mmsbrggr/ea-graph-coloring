@@ -60,5 +60,6 @@ def genetic_algorithm(initialization_func,
                 for i in range(individual.coloring.size):
                     if individual.coloring[i] not in graph.colors:
                         individual.coloring[i] = random.choice(graph.colors)
+                individual.fitness = fitness_func(individual, population)
 
     return best_individual
