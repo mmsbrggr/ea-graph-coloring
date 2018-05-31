@@ -20,4 +20,4 @@ def number_bad_edges(individual):
 
 
 def number_colors(individual):
-    return np.unique(individual).size
+    return np.unique(individual.coloring).size

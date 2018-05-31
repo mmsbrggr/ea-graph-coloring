@@ -19,8 +19,7 @@ def main(argv):
 
     solution = ga1(graph)
 
-    # TODO print / write solution
-    print(solution)
+    print(solution.coloring)
 
 
 def ga1(graph):
