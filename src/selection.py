@@ -18,7 +18,7 @@ def tournament_selection(tournament_size, selection_size):
             tournament_leader = random.choice(population)
             for j in range(tournament_size - 1):
                 individual = random.choice(population)
-                if fitness_func(individual, population) > \
+                if fitness_func(individual, population) < \
                         fitness_func(tournament_leader, population):
                     tournament_leader = individual
             selected_individuals.append(tournament_leader)

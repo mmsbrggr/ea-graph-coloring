@@ -10,6 +10,7 @@ from src.recombine import recombine_crossover
 from src.replace import replace
 from src.selection import tournament_selection
 from src.termination import terminate_after_generations
+from src.fitness import number_colors, number_bad_edges
 
 
 def main(argv):
@@ -19,15 +20,17 @@ def main(argv):
 
     solution = ga1(graph)
 
-    print(solution.coloring)
+    print("Coloring:", solution.coloring)
+    print("# Bad edges:", number_bad_edges(solution))
+    print("# Colors:", number_colors(solution))
 
 
 def ga1(graph):
     return genetic_algorithm(
-        initialization_random(graph, 10),
+        initialization_random(graph, 50),
         fitness,
-        terminate_after_generations(100),
-        tournament_selection(tournament_size=3, selection_size=8),
+        terminate_after_generations(1000),
+        tournament_selection(tournament_size=3, selection_size=20),
         recombine_crossover,
         mutate,
         replace

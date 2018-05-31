@@ -27,14 +27,11 @@ def genetic_algorithm(initialization_func,
         population = replace_func(fitness_func, population, children)
 
         # Debug info
-        current = [fitness_func(i, population) for i in population]
-        current.sort()
-        print('Generation', t, current)
+        if t % 10 == 0:
+            current_fitness = [fitness_func(i, population) for i in population]
+            current_fitness.sort()
+            print('Generation', t, current_fitness)
 
-    best_individual = population[0]
-    for individual in population[1:]:
-        if fitness_func(individual, population) > \
-                fitness_func(best_individual, population):
-            best_individual = individual
+    best_individual = min(population, key=lambda individual: fitness_func(individual, population))
 
     return best_individual
