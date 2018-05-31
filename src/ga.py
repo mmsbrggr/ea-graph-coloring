@@ -21,12 +21,13 @@ def genetic_algorithm(initialization_func,
             parent_1 = reproducing_population.pop()
             parent_2 = reproducing_population.pop()
             offspring = recombine_func(parent_1, parent_2)
-            children += mutate_func(offspring)
+            mutate_func(offspring)
+            children.append(offspring)
 
         population = replace_func(fitness_func, population, children)
 
         # Debug info
-        current = [i.fitness for i in population]
+        current = [fitness_func(i, population) for i in population]
         current.sort()
         print('Generation', t, current)
 

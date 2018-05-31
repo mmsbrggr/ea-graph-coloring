@@ -1,6 +1,6 @@
 import random
 
-from Individual import Individual
+from src.Individual import Individual
 
 
 def recombine_crossover(parent_1, parent_2):
