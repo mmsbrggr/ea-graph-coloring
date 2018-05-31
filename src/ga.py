@@ -23,7 +23,7 @@ def genetic_algorithm(initialization_func,
             offspring = recombine_func(parent_1, parent_2)
             children += mutate_func(offspring)
 
-        replace_func(fitness_func, population, children)
+        population = replace_func(fitness_func, population, children)
 
         # Debug info
         current = [i.fitness for i in population]
