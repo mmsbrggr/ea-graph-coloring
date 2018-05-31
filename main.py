@@ -31,10 +31,11 @@ def main(argv):
 
 def ga1(graph):
     return genetic_algorithm(
-        initialization_random(graph, 30),
+        graph,
+        initialization_random(graph, 50),
         fitness,
-        terminate_after_generations(1000),
-        tournament_selection(tournament_size=4, selection_size=10),
+        terminate_after_generations(10000),
+        tournament_selection(tournament_size=2, selection_size=30),
         recombine_crossover,
         mutate_random_color(0.05),
         replace

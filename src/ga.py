@@ -5,7 +5,36 @@ import numpy as np
 from src.fitness import number_bad_edges
 
 
-def genetic_algorithm(initialization_func,
+def genetic_algorithm(graph,
+                      initialization_func,
+                      fitness_func,
+                      termination_func,
+                      selection_func,
+                      recombine_func,
+                      mutate_func,
+                      replace_func):
+
+    best_solution = None
+    is_solution = True
+
+    while is_solution:
+        possible_solution = genetic_algorithm_step(initialization_func,
+                                                    fitness_func,
+                                                    termination_func,
+                                                    selection_func,
+                                                    recombine_func,
+                                                    mutate_func,
+                                                    replace_func)
+        is_solution = number_bad_edges(possible_solution) == 0
+        if is_solution:
+            best_solution = possible_solution
+            graph.colors = range(1, np.unique(best_solution.coloring).size)
+            print("Solution found for k =", np.unique(best_solution.coloring).size, "Restarting")
+
+    return best_solution
+
+
+def genetic_algorithm_step(initialization_func,
                         fitness_func,
                         termination_func,
                         selection_func,
@@ -41,25 +70,8 @@ def genetic_algorithm(initialization_func,
             current_fitness.sort()
             print('Generation', t, 'Colors', np.unique(best_individual.coloring).size, current_fitness)
 
-        # check if we found a new best indivdual with less colours and no conflicts
-        new_best = False
-        min_colors = np.unique(best_individual.coloring).size
-        for individual in population:
-            if np.unique(individual.coloring).size < min_colors and number_bad_edges(individual) == 0:
-                best_individual = individual
-                min_colors = np.unique(best_individual.coloring).size
-                new_best = True
-
-        # force the whole population to use only colours of the new best individual
-        if new_best:
-            graph = best_individual.graph
-            # set new colors
-            graph.colors = np.unique(best_individual.coloring)
-            # force new colors for all individuals
-            for individual in population:
-                for i in range(individual.coloring.size):
-                    if individual.coloring[i] not in graph.colors:
-                        individual.coloring[i] = random.choice(graph.colors)
-                individual.fitness = fitness_func(individual, population)
+        best_individual = min(population, key=lambda individual: individual.fitness)
+        if number_bad_edges(best_individual) == 0:
+            return best_individual
 
     return best_individual
