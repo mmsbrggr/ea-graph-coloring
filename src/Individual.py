@@ -1,4 +1,7 @@
-class Individual(object):
+import numpy as np
+
+
+class Individual:
     def __init__(self, graph):
         self.graph = graph
-        self.coloring = [x for x in range(graph.number_vertices)]
+        self.coloring = np.zeros(graph.number_vertices)

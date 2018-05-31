@@ -38,13 +38,3 @@ def genetic_algorithm(initialization_func,
             best_individual = individual
 
     return best_individual
-
-
-
-
-
-
-
-
-
-
