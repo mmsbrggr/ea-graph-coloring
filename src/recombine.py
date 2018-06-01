@@ -10,7 +10,7 @@ def one_point_crossover(parent_1, parent_2):
     for i in range(individual.graph.number_vertices):
         if i == rand_point:
             active = parent_2
-        individual.coloring[i] = active.coloring[i]
+        individual.set_color(i, active.coloring[i])
     return individual
 
 
@@ -18,7 +18,7 @@ def random_crossover(parent_1, parent_2):
     individual = Individual(parent_1.graph)
     for i in range(individual.graph.number_vertices):
         if random.random() <= 0.5:
-            individual.coloring[i] = parent_1.coloring[i]
+            individual.set_color(i, parent_1.coloring[i])
         else:
-            individual.coloring[i] = parent_2.coloring[i]
+            individual.set_color(i, parent_2.coloring[i])
     return individual
