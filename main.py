@@ -6,7 +6,7 @@ from src.fitness import fitness, fitness_only_bad_edges
 from src.ga import genetic_algorithm
 from src.initialization import initialization_random
 from src.mutate import mutate, mutate_random_color
-from src.recombine import recombine_crossover
+from src.recombine import one_point_crossover
 from src.replace import replace
 from src.selection import tournament_selection
 from src.termination import terminate_after_generations
@@ -32,12 +32,12 @@ def main(argv):
 def ga1(graph):
     return genetic_algorithm(
         graph,
-        initialization_random(graph, 50),
+        initialization_random(graph, 30),
         fitness,
         terminate_after_generations(10000),
         tournament_selection(tournament_size=2, selection_size=30),
-        recombine_crossover,
-        mutate_random_color(0.05),
+        one_point_crossover,
+        mutate,
         replace
     )
 
