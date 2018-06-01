@@ -18,4 +18,8 @@ class Parser:
                 elif words[0] is edge_symbol:
                     graph.add_edge(int(words[1]) - 1, int(words[2]) - 1)
 
+        graph.set_max_degree()
+        graph.set_colors()
+        graph.make_triangular()
+        print(graph.max_degree, graph.number_vertices)
         return graph
