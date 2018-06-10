@@ -1,9 +1,8 @@
+import copy
 import random
 
 import numpy as np
 
-from src.local_search import next_improvement, one_colour_change_neighborhood, \
-    terminate_after_steps
 from src.fitness import number_bad_edges
 
 
@@ -15,23 +14,38 @@ def genetic_algorithm(graph,
                       recombine_func,
                       mutate_func,
                       replace_func,
-                      local_search_func=None):
+                      local_search_func=None,
+                      restart_after_step=True):
 
     best_solution = None
     is_solution = True
+    population = []
 
     while is_solution:
-        possible_solution = genetic_algorithm_step(initialization_func,
-                                                   fitness_func,
-                                                   termination_func,
-                                                   selection_func,
-                                                   recombine_func,
-                                                   mutate_func,
-                                                   replace_func,
-                                                   local_search_func)
+        if not restart_after_step and population:
+            # we don't now want to restart with a new fresh created population
+            # but instead keep the current population
+            for individual in population:
+                for i in range(graph.number_vertices):
+                    if individual.coloring[i] not in graph.colors:
+                        # replace invalid (not anymore used) colors
+                        individual.set_color(i, random.choice(graph.colors))
+                individual.fitness = fitness_func(individual, population)
+            # initialization_func shall return old, updated population
+            initialization_func = lambda: population
+
+        possible_solution, population = \
+            genetic_algorithm_step(initialization_func,
+                                   fitness_func,
+                                   termination_func,
+                                   selection_func,
+                                   recombine_func,
+                                   mutate_func,
+                                   replace_func,
+                                   local_search_func)
         is_solution = number_bad_edges(possible_solution) == 0
         if is_solution:
-            best_solution = possible_solution
+            best_solution = copy.deepcopy(possible_solution)
             graph.colors = range(1, np.unique(best_solution.coloring).size)
             print("Solution found for k =", np.unique(best_solution.coloring).size, "Restarting")
 
@@ -77,10 +91,10 @@ def genetic_algorithm_step(initialization_func,
 
         best_individual = min(population, key=lambda individual: individual.fitness)
         if number_bad_edges(best_individual) == 0:
-            return best_individual
+            return best_individual, population
 
         # Try to improve the best individual a little bit
         if local_search_func:
             local_search_func(best_individual, fitness_func)
 
-    return best_individual
+    return best_individual, population

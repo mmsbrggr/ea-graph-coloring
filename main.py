@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import datetime
 
 from src.local_search import local_search, next_improvement, \
     one_colour_change_neighborhood, terminate_after_steps
@@ -26,9 +27,17 @@ def main(argv):
     else:
         solution = ga1(graph)
 
-    print("Coloring:", solution.coloring)
-    print("# Bad edges:", number_bad_edges(solution))
-    print("# Colors:", number_colors(solution))
+    result_str = '\n\r'.join(['Coloring: %s' % solution.coloring,
+                              '# Bad edges: %s' % number_bad_edges(solution),
+                              '# Colors: %s' % number_colors(solution)])
+    print(result_str)
+
+    script_dir = os.path.dirname(__file__)
+    directory = os.path.join(script_dir, 'results')
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    with open(os.path.join(directory, '%s_%s.txt' % (file_name, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))), 'w') as f:
+        f.write(result_str)
 
 
 def ga1(graph):
@@ -54,7 +63,8 @@ def ga2(graph):
         one_point_crossover,
         mutate,
         replace,
-        local_search(one_colour_change_neighborhood, next_improvement, terminate_after_steps(10))
+        local_search(one_colour_change_neighborhood, next_improvement, terminate_after_steps(10)),
+        restart_after_step=False
     )
 
 

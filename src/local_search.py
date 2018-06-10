@@ -25,13 +25,16 @@ def local_search(neighbourhood_func,
             iterations += 1
 
         if best_score < initial_score:
-            print('Local search found an improvment')
+            print('Local search found an improvement')
         return best
 
     return f
 
 
 def next_improvement(best_score, neighbors, score_fun):
+    """
+    Returns the first neighbors which is better than the current solution
+    """
     for neighbor in neighbors:
         score = score_fun(neighbor)
         if score < best_score:
