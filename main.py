@@ -1,6 +1,8 @@
 import os
 import sys
 
+from src.local_search import local_search, next_improvement, \
+    one_colour_change_neighborhood, terminate_after_steps
 from src.Parser import Parser
 from src.fitness import fitness, fitness_only_bad_edges
 from src.ga import genetic_algorithm
@@ -42,5 +44,22 @@ def ga1(graph):
     )
 
 
+def ga2(graph):
+    return genetic_algorithm(
+        graph,
+        initialization_random(graph, 30),
+        fitness,
+        terminate_after_generations(1000),
+        tournament_selection(tournament_size=2, selection_size=10),
+        one_point_crossover,
+        mutate,
+        replace,
+        local_search(one_colour_change_neighborhood, next_improvement, terminate_after_steps(10))
+    )
+
+
 if __name__ == "__main__":
+    # run this program via commandline with:
+    # py -3 main.py instance-name algorithm-name(optional)
+    # e.g.: py -3 main.py queen5_5 ga2
     main(sys.argv[1:])

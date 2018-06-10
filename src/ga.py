@@ -2,6 +2,8 @@ import random
 
 import numpy as np
 
+from src.local_search import next_improvement, one_colour_change_neighborhood, \
+    terminate_after_steps
 from src.fitness import number_bad_edges
 
 
@@ -12,19 +14,21 @@ def genetic_algorithm(graph,
                       selection_func,
                       recombine_func,
                       mutate_func,
-                      replace_func):
+                      replace_func,
+                      local_search_func=None):
 
     best_solution = None
     is_solution = True
 
     while is_solution:
         possible_solution = genetic_algorithm_step(initialization_func,
-                                                    fitness_func,
-                                                    termination_func,
-                                                    selection_func,
-                                                    recombine_func,
-                                                    mutate_func,
-                                                    replace_func)
+                                                   fitness_func,
+                                                   termination_func,
+                                                   selection_func,
+                                                   recombine_func,
+                                                   mutate_func,
+                                                   replace_func,
+                                                   local_search_func)
         is_solution = number_bad_edges(possible_solution) == 0
         if is_solution:
             best_solution = possible_solution
@@ -35,12 +39,13 @@ def genetic_algorithm(graph,
 
 
 def genetic_algorithm_step(initialization_func,
-                        fitness_func,
-                        termination_func,
-                        selection_func,
-                        recombine_func,
-                        mutate_func,
-                        replace_func):
+                           fitness_func,
+                           termination_func,
+                           selection_func,
+                           recombine_func,
+                           mutate_func,
+                           replace_func,
+                           local_search_func=None):
     t = 0
     population = initialization_func()
     best_individual = population[0]
@@ -73,5 +78,9 @@ def genetic_algorithm_step(initialization_func,
         best_individual = min(population, key=lambda individual: individual.fitness)
         if number_bad_edges(best_individual) == 0:
             return best_individual
+
+        # Try to improve the best individual a little bit
+        if local_search_func:
+            local_search_func(best_individual, fitness_func)
 
     return best_individual
