@@ -56,15 +56,15 @@ def ga1(graph):
 def ga2(graph):
     return genetic_algorithm(
         graph,
-        initialization_random(graph, 30),
+        initialization_random(graph, 50),
         fitness,
-        terminate_after_generations(1000),
-        tournament_selection(tournament_size=2, selection_size=10),
+        terminate_after_generations(10000),
+        tournament_selection(tournament_size=2, selection_size=16),
         one_point_crossover,
         mutate,
         replace,
         local_search(one_colour_change_neighborhood, next_improvement, terminate_after_steps(10)),
-        restart_after_step=False
+        restart_after_step=True
     )
 
 

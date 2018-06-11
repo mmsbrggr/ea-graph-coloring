@@ -94,7 +94,9 @@ def genetic_algorithm_step(initialization_func,
             return best_individual, population
 
         # Try to improve the best individual a little bit
-        if local_search_func:
+        if t % 100 == 0 and local_search_func:
+            map(lambda p: local_search_func(p, fitness_func), population)
+        elif t % 3 == 0 and local_search_func:
             local_search_func(best_individual, fitness_func)
 
     return best_individual, population
