@@ -12,7 +12,7 @@ from src.mutate import mutate, mutate_random_color
 from src.recombine import one_point_crossover
 from src.replace import replace
 from src.selection import tournament_selection
-from src.termination import terminate_after_generations
+from src.termination import terminate_after_generations, terminate_after
 from src.fitness import number_colors, number_bad_edges
 
 
@@ -27,9 +27,12 @@ def main(argv):
     else:
         solution = ga1(graph)
 
-    result_str = '\n\r'.join(['Coloring: %s' % solution.coloring,
-                              '# Bad edges: %s' % number_bad_edges(solution),
-                              '# Colors: %s' % number_colors(solution)])
+    if solution:
+        result_str = '\n\r'.join(['Coloring: %s' % solution.coloring,
+                                  '# Bad edges: %s' % number_bad_edges(solution),
+                                  '# Colors: %s' % number_colors(solution)])
+    else:
+        result_str = 'No solution found!'
     print(result_str)
 
     script_dir = os.path.dirname(__file__)
@@ -58,7 +61,7 @@ def ga2(graph):
         graph,
         initialization_random(graph, 50),
         fitness,
-        terminate_after_generations(10000),
+        terminate_after(max_generations=10000, max_minutes=30),
         tournament_selection(tournament_size=2, selection_size=16),
         one_point_crossover,
         mutate,

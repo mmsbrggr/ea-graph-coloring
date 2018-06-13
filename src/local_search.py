@@ -25,7 +25,8 @@ def local_search(neighbourhood_func,
             iterations += 1
 
         if best_score < initial_score:
-            print('Local search found an improvement')
+            pass
+            #print('Local search found an improvement')
         return best
 
     return f
