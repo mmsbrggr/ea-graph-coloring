@@ -20,7 +20,7 @@ def main(argv):
     file_name = argv[0]
     path = os.path.join(os.getcwd(), 'instances', file_name + '.col')
     graph = Parser().get_graph_from_file(path)
-
+    start_time = datetime.now()
     if len(argv) >= 2:
         # choose algorithm from command line
         solution = globals()[argv[1]](graph)
@@ -33,6 +33,7 @@ def main(argv):
                                   '# Colors: %s' % number_colors(solution)])
     else:
         result_str = 'No solution found!'
+    result_str += '\n\rSeconds: %s' % (datetime.now() - start_time).total_seconds()
     print(result_str)
 
     script_dir = os.path.dirname(__file__)
