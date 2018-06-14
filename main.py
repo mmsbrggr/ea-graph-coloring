@@ -61,7 +61,7 @@ def ga2(graph):
         graph,
         initialization_random(graph, 50),
         fitness,
-        terminate_after(max_generations=10000, max_minutes=30),
+        terminate_after(max_generations=10000000000, max_minutes=30),
         tournament_selection(tournament_size=2, selection_size=16),
         one_point_crossover,
         mutate,

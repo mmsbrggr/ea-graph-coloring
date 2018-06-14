@@ -4,7 +4,7 @@ import random
 import numpy as np
 
 from src.fitness import number_bad_edges
-
+from src.mutate import mutation_rate
 
 def genetic_algorithm(graph,
                       initialization_func,
@@ -77,11 +77,14 @@ def genetic_algorithm_step(initialization_func,
             parent_1 = reproducing_population.pop()
             parent_2 = reproducing_population.pop()
             offspring = recombine_func(parent_1, parent_2)
-            mutate_func(offspring)
             offspring.fitness = fitness_func(offspring, population)
             children.append(offspring)
 
         population = replace_func(population, children)
+        for individual in population:
+            if random.random() < mutation_rate:
+                mutate_func(individual)
+                individual.fitness = fitness_func(individual, population)
 
         # Debug info
         if t % 10 == 0:
